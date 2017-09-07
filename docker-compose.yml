@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  db:
+    build:
+      context: ./docker/db
+      dockerfile: ./Dockerfile
+    environment:
+      - MYSQL_DATABASE=sulu
+      - MYSQL_PASSWORD=
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=root
+    volumes:
+      - db-data:/var/lib/mysql:rw
+  elasticsearch:
+    build:
+      context: ./docker/elasticsearch
+      dockerfile: ./Dockerfile
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - "9200:9200"
+  sulu-demo:
+#    links:        [ mailcatcher ]
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    depends_on:
+      - db
+#        condition: 'service_healthy'
+    environment:
+      - SYMFONY_ENV=dev
+    volumes:
+      - ./:/var/www/sulu-demo:rw
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - .:/var/www/sulu-demo:ro
+    ports:
+      - "80:80"
+
+#  mailcatcher:
+#      build:        docker/mailcatcher
+#      volumes_from: [ base ]
+#      ports:
+#          - 1080:1080
+#      stdin_open:   true
+#      tty:          true
+
+volumes:
+  db-data: {}

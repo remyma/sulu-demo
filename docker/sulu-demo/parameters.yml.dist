@@ -1,6 +1,6 @@
 parameters:
     database_driver:   pdo_mysql
-    database_host:     127.0.0.1
+    database_host:     '%env(DATABASE_HOST)%'
     database_port:     ~
     database_name:     sulu
     database_user:     root
@@ -8,9 +8,6 @@ parameters:
     database_version:  5.5
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.var_dir%/database.sqlite"
-
-    elasticsearch_host: 127.0.0.1
-    elasticsearch_port: 9200
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1

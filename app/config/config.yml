@@ -170,11 +170,15 @@ ongr_elasticsearch:
     managers:
         default:
             index:
+                hosts:
+                  - "%elasticsearch_host%:%elasticsearch_port%"
                 index_name: sulu_rocks_articles
             mappings:
                 - SuluArticleBundle
         live:
             index:
+                hosts:
+                  - "%elasticsearch_host%:%elasticsearch_port%"
                 index_name: sulu_rocks_articles_live
             mappings:
                 - SuluArticleBundle

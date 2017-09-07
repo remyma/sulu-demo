@@ -66,6 +66,34 @@ $folders = "var\cache", "var\logs", "var\indexes", "var\sessions", "var\uploads"
 foreach ($f in $folders) { $acl = Get-Acl $f; $acl.SetAccessRule($rule); Set-Acl $f $acl; }
 ```
 
+## Installation with Docker
+
+Alternatively, you can install sulu demo with docker. Docker support is provided through docker compose (check docker-compose.yml).
+It will build following containers :
+
+* mysql database
+* elasticsearch
+* nginx
+* php fpm
+
+1. build the containers :
+
+```
+docker-compose build
+```
+
+2. Launch the containers :
+
+```
+docker-compose up
+```
+
+3. Launch sulu demo install (first time only) :
+
+```
+docker exec -i -t suludemo_sulu-demo_1 php bin/adminconsole app:install --destroy
+```
+
 ## Usage
 
 Now you can try out our demo, there is no need to configure a virtual host. Just use the build in web servers:
